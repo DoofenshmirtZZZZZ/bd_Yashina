@@ -20,7 +20,7 @@ SELECT h.name, h.risk FROM hobby h WHERE h.name = 'Баскетбол' OR h.name
 
 /*6.Вывести id хобби и id студента которые начали заниматься хобби между двумя заданными датами (выбрать самим) и студенты должны до сих пор заниматься хобби*/
 
-SELECT st_h.n_z, st_h.id_hobby FROM student_hobby st_h WHERE st_h.date_start > '2021-01-01' AND st_h.date_start < '2022-01-01' AND st_h.date_end IS NULL
+SELECT st_h.n_z, st_h.id_hobby FROM student_hobby st_h WHERE st_h.date_start > '2005-01-01' AND st_h.date_start < '2020-01-01' AND st_h.date_end IS NULL
 
 /*7.Вывести студентов, средний балл которых больше 4.5 и отсортировать по баллу от большего к меньшему*/
 
