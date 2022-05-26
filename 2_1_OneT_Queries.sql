@@ -16,7 +16,7 @@ SELECT * FROM students st WHERE st.score >= 4.0 ORDER BY st.score DESC
 
 /*5.Вывести на экран название и риск Баскетбол и Волейбол*/
 
-SELECT h.name, h.risk FROM hobby h WHERE h.name = 'Футбол' OR h.name = 'Бокс'
+SELECT h.name, h.risk FROM hobby h WHERE h.name = 'Баскетбол' OR h.name = 'Волейбол'
 
 /*6.Вывести id хобби и id студента которые начали заниматься хобби между двумя заданными датами (выбрать самим) и студенты должны до сих пор заниматься хобби*/
 
