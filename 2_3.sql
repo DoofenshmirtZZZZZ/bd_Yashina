@@ -389,25 +389,75 @@ ON sth.id_hobby = h.id
 GROUP BY EXTRACT(MONTH FROM st.date_of_birth), h.name
 HAVING h.name = 'Баскетбол'
 
+/*31. Вывести информацию о студентах, которые занимались или занимаются хотя бы 1 хобби в следующем формате: Имя: Иван, фамилия: Иванов, группа: 1234*/
 
+SELECT st.name, st.surname, st.group_num
+FROM students st
+WHERE
+  st.n_z IN 
+    (SELECT st.n_z
+    FROM students st
+    INNER JOIN student_hobby sth
+    ON sth.n_z = st.n_z
+    INNER JOIN hobby h
+    ON sth.id_hobby = h.id
+    GROUP BY st.n_z)
 
+/*32. Найдите в фамилии в каком по счёту символа встречается «ов». Если 0 (т.е. не встречается, то выведите на экран «не найдено».*/
 
+SELECT st.surname,
+  CASE
+    WHEN POSITION('ов' IN st.surname) = 0
+    THEN 'Не найдено'
+  ELSE POSITION('ов' IN st.surname)::VARCHAR
+  END
+FROM students st
 
+/*33. Дополните фамилию справа символом # до 10 символов.*/
 
+SELECT OVERLAY('##########' placing st.surname FROM 1)
+FROM students st
 
+/*34. При помощи функции удалите все символы # из предыдущего запроса.*/
 
+SELECT TRIM(TRAILING '#' FROM OVERLAY('##########' placing st.surname FROM 1))
+FROM students st
 
+/*35. Выведите на экран сколько дней в апреле 2018 года.*/
 
+SELECT EXTRACT(DAY FROM '2018-05-01'::TIMESTAMP-'2018-04-01'::TIMESTAMP)
 
+/*36. Выведите на экран какого числа будет ближайшая суббота.*/
 
+SELECT NOW()::DATE + (6-EXTRACT(DOW FROM NOW()))::INT
 
+/*37. Выведите на экран век, а также какая сейчас неделя года и день года.*/
 
+SELECT 
+EXTRACT(CENTURY FROM NOW()) cent, EXTRACT(WEEK FROM NOW()) week,EXTRACT(DOY FROM NOW()) days
 
+/*38. Выведите всех студентов, которые занимались или занимаются хотя бы 1 хобби. Выведите на экран Имя, Фамилию, Названию хобби, а также надпись «занимается», если студент продолжает заниматься хобби в данный момент или «закончил», если уже не занимает.*/
 
+SELECT st.name, st.surname, h.name,
+  CASE
+    WHEN (sth.date_end IS NULL) THEN 'занимается'
+    WHEN (sth.date_end IS NOT NULL) THEN 'закончил'
+  END status
+FROM students st
+INNER JOIN student_hobby sth
+ON sth.n_z = st.n_z
+INNER JOIN hobby h
+ON sth.id_hobby = h.id
 
+/*39. Для каждой группы вывести сколько студентов учится на 5,4,3,2. Использовать обычное математическое округление.*/
 
-
-
-
+SELECT st.group_num, 
+  COUNT(st.score) FILTER (WHERE ROUND(st.score) = 5) five,
+  COUNT(st.score) FILTER (WHERE ROUND(st.score) = 4) four,
+  COUNT(st.score) FILTER (WHERE ROUND(st.score) = 3) three,
+  COUNT(st.score) FILTER (WHERE ROUND(st.score) = 2) two
+FROM students st
+GROUP BY
+  st.group_num
 
 
