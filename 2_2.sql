@@ -1,14 +1,17 @@
 /*1.Выведите на экран номера групп и количество студентов, обучающихся в них*/
 
-SELECT st.group_num, COUNT(st.n_z) FROM students st GROUP BY st.group_num
+SELECT st.group_num, COUNT(st.n_z) 
+FROM students st GROUP BY st.group_num
 
 /* 2.Выведите на экран для каждой группы максимальный средний балл*/
 
-SELECT st.group_num, MAX(st.score) FROM students st GROUP BY st.group_num
+SELECT st.group_num, MAX(st.score) 
+FROM students st GROUP BY st.group_num
 
 /* 3 . Подсчитать количество студентов с каждой фамилией */
 
-SELECT st.surname, COUNT(st.surname) FROM students st GROUP BY st.surname
+SELECT st.surname, COUNT(st.surname) 
+FROM students st GROUP BY st.surname
 
 /* 4 . Подсчитать студентов, которые родились в каждом году*/
 
@@ -48,9 +51,8 @@ GROUP BY st.group_num
 /* 9.Вывести студента/ов, который/ые имеют наибольший балл в заданной группе*/
 
 SELECT st.*
-FROM 
-  (SELECT * FROM (SELECT st.group_num, MAX(st.score) FROM students st GROUP BY st.group_num) gr_max
-  WHERE gr_max.group_num = '2255') temp_res, students st
+FROM (SELECT * FROM (SELECT st.group_num, MAX(st.score) FROM students st GROUP BY st.group_num) gr_max
+WHERE gr_max.group_num = '2255') temp_res, students st
 WHERE temp_res.group_num = st.group_num AND temp_res.max = st.score
 
 /* 10.Аналогично 9 заданию, но вывести в одном запросе для каждой группы студента с максимальным баллом */
